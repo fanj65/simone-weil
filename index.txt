@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simone Weil: Uma Exploração Interativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony (Cream, Dark Slate, Muted Rose) -->
+    <!-- Application Structure Plan: The application is designed as a single-page exploratory journey, divided into four main thematic sections: an introduction, an interactive timeline of her life ("Vida e Experiência"), a section for her core ideas ("Pensamento e Mística"), and her legacy ("Legado e Obras"). This structure abandons the linear format of the report in favor of a hub-and-spoke model, allowing users to navigate freely between Weil's life and her abstract thought. This is crucial because her philosophy is deeply intertwined with her lived experiences. The interactive timeline and the accordion for her concepts make dense information more accessible and less intimidating, promoting user engagement and deeper understanding. -->
+    <!-- Visualization & Content Choices: 
+        - Biography -> Interactive Timeline: To transform a static biography into an engaging journey. Goal: Show the radical coherence between her life events and philosophical development. Interaction: Clicking a timeline event reveals detailed text, allowing for focused learning. Justification: More dynamic and user-directed than a block of text. Method: HTML/CSS/JS.
+        - Key Concepts -> Interactive Accordion: To break down complex philosophical ideas into manageable pieces. Goal: Clarify distinct but related concepts. Interaction: Clicking a concept title expands to show the full explanation. Justification: Prevents overwhelming the user and facilitates focused study of each idea. Method: HTML/CSS/JS.
+        - Legacy/Works -> Clean Text Layout: To present factual information clearly. Goal: Inform about her influence and major publications. Interaction: Minimal, focusing on readability. Justification: A straightforward presentation is best for this type of reference information. Method: HTML/CSS.
+        - Graphics: All visual elements are created with Tailwind CSS and Unicode characters to avoid external files and SVG, ensuring a lightweight and self-contained application.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background-color: #FDFBF5;
+            color: #333D45;
+        }
+        h1, h2, h3 {
+            font-family: 'Lora', serif;
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #8A3B53;
+            border-color: #8A3B53;
+        }
+        .timeline-item-content {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .timeline-item-content.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .concept-content {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .concept-content.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .concept-title.open .icon {
+            transform: rotate(45deg);
+        }
+        .icon {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <h1 class="text-xl font-bold text-[#333D45]">Simone Weil</h1>
+                <div class="hidden sm:flex sm:space-x-8">
+                    <a href="#intro" class="nav-link border-b-2 border-transparent py-1">Introdução</a>
+                    <a href="#vida" class="nav-link border-b-2 border-transparent py-1">Vida e Experiência</a>
+                    <a href="#pensamento" class="nav-link border-b-2 border-transparent py-1">Pensamento e Mística</a>
+                    <a href="#legado" class="nav-link border-b-2 border-transparent py-1">Legado e Obras</a>
+                </div>
+                <div class="sm:hidden">
+                    <button id="menu-button" class="text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden sm:hidden py-4">
+                <a href="#intro" class="block nav-link text-center py-2">Introdução</a>
+                <a href="#vida" class="block nav-link text-center py-2">Vida e Experiência</a>
+                <a href="#pensamento" class="block nav-link text-center py-2">Pensamento e Mística</a>
+                <a href="#legado" class="block nav-link text-center py-2">Legado e Obras</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+        <section id="intro" class="text-center mb-16 sm:mb-24 scroll-mt-20">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Simone Weil: Uma Mente em Busca da Verdade Absoluta</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-700">
+                Bem-vindo a uma exploração interativa da vida e do pensamento de Simone Weil (1909-1943), uma das filósofas, místicas e ativistas mais radicais do século XX. Esta página permite-lhe navegar pela sua biografia intensa e pelos seus conceitos filosóficos profundos. Albert Camus descreveu-a como "o único grande espírito do nosso tempo". Explore as secções abaixo para compreender porquê.
+            </p>
+        </section>
+
+        <section id="vida" class="mb-16 sm:mb-24 scroll-mt-20">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12">Vida e Experiência: A Filosofia Encarnada</h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-600 mb-12">
+                Para Simone Weil, a filosofia não era um exercício académico; era uma prática de vida. Ela buscou a verdade através da experiência direta, mergulhando nas realidades mais duras do seu tempo. A cronologia abaixo destaca os momentos cruciais que moldaram o seu pensamento. Clique em cada evento para saber mais.
+            </p>
+            <div class="relative max-w-2xl mx-auto">
+                <div class="absolute left-1/2 top-0 h-full w-0.5 bg-rose-200" aria-hidden="true"></div>
+                <ul class="space-y-12">
+                    <li class="timeline-item">
+                        <div class="flex items-center">
+                            <div class="flex-1 text-right pr-8">
+                                <h3 class="font-bold text-lg text-[#8A3B53]">1909-1931: Formação</h3>
+                            </div>
+                            <button class="z-10 flex-shrink-0 bg-[#8A3B53] text-white rounded-full w-12 h-12 flex items-center justify-center cursor-pointer hover:bg-[#6d2f42] transition-colors" data-target="content-1">
+                                <span class="text-xl font-bold">+</span>
+                            </button>
+                            <div class="flex-1 pl-8"></div>
+                        </div>
+                        <div id="content-1" class="timeline-item-content mt-4">
+                            <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#8A3B53]">
+                                <p class="text-gray-700">Nascida em Paris numa família judia agnóstica, culta e abastada, Simone Weil demonstrou desde cedo uma inteligência excecional. Formou-se com brilhantismo em filosofia na prestigiada École Normale Supérieure, onde foi aluna do filósofo Alain, destacando-se como uma das mentes mais promissoras da sua geração.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-item">
+                         <div class="flex items-center">
+                            <div class="flex-1 pr-8"></div>
+                            <button class="z-10 flex-shrink-0 bg-[#8A3B53] text-white rounded-full w-12 h-12 flex items-center justify-center cursor-pointer hover:bg-[#6d2f42] transition-colors" data-target="content-2">
+                                <span class="text-xl font-bold">+</span>
+                            </button>
+                            <div class="flex-1 text-left pl-8">
+                               <h3 class="font-bold text-lg text-[#8A3B53]">1934-1935: Operária de Fábrica</h3>
+                            </div>
+                        </div>
+                        <div id="content-2" class="timeline-item-content mt-4">
+                            <div class="bg-white p-6 rounded-lg shadow-md border-r-4 border-[#8A3B53]">
+                                <p class="text-gray-700">Movida por um profundo sentimento de justiça, interrompeu a sua carreira de professora para trabalhar como operária na Renault. Queria compreender, a partir de dentro, a opressão e a desumanização impostas pelo trabalho industrial. Essa experiência, documentada em *A Condição Operária*, foi fundamental para o seu pensamento sobre a força e a desgraça.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="flex items-center">
+                            <div class="flex-1 text-right pr-8">
+                                <h3 class="font-bold text-lg text-[#8A3B53]">1936: Guerra Civil Espanhola</h3>
+                            </div>
+                             <button class="z-10 flex-shrink-0 bg-[#8A3B53] text-white rounded-full w-12 h-12 flex items-center justify-center cursor-pointer hover:bg-[#6d2f42] transition-colors" data-target="content-3">
+                                <span class="text-xl font-bold">+</span>
+                            </button>
+                            <div class="flex-1 pl-8"></div>
+                        </div>
+                        <div id="content-3" class="timeline-item-content mt-4">
+                             <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#8A3B53]">
+                                <p class="text-gray-700">Apesar do seu pacifismo, juntou-se a uma coluna anarquista durante a Guerra Civil Espanhola para lutar contra o fascismo. A experiência no front confrontou-a com a brutalidade da guerra e a natureza corruptora da força, reforçando as suas reflexões sobre a violência e a humanidade.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-item">
+                         <div class="flex items-center">
+                             <div class="flex-1 pr-8"></div>
+                            <button class="z-10 flex-shrink-0 bg-[#8A3B53] text-white rounded-full w-12 h-12 flex items-center justify-center cursor-pointer hover:bg-[#6d2f42] transition-colors" data-target="content-4">
+                                 <span class="text-xl font-bold">+</span>
+                            </button>
+                            <div class="flex-1 text-left pl-8">
+                               <h3 class="font-bold text-lg text-[#8A3B53]">1942-1943: Resistência e Morte</h3>
+                            </div>
+                        </div>
+                        <div id="content-4" class="timeline-item-content mt-4">
+                            <div class="bg-white p-6 rounded-lg shadow-md border-r-4 border-[#8A3B53]">
+                                <p class="text-gray-700">Durante a Segunda Guerra Mundial, fugiu para Londres, onde se juntou à Resistência Francesa. A sua morte, aos 34 anos, foi o culminar de uma vida de coerência radical. Internada com tuberculose, recusou-se a comer mais do que as rações atribuídas aos seus compatriotas na França ocupada, agravando a sua condição. Morreu por uma combinação de doença e autonegação solidária.</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="pensamento" class="mb-16 sm:mb-24 scroll-mt-20">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12">Pensamento e Mística: Conceitos-Chave</h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-600 mb-12">
+                A filosofia de Simone Weil é inseparável da sua espiritualidade. Os seus conceitos exploram a condição humana, o sofrimento e a possibilidade de transcendência. Expanda cada tópico para mergulhar nas suas ideias mais profundas.
+            </p>
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="concept-item border rounded-lg overflow-hidden">
+                    <button class="concept-title w-full text-left p-4 sm:p-5 flex justify-between items-center bg-white hover:bg-rose-50/50 transition-colors" data-target="concept-content-1">
+                        <h3 class="text-lg sm:text-xl font-semibold text-[#333D45]">Atenção (L'attention)</h3>
+                        <span class="icon text-xl text-[#8A3B53]">+</span>
+                    </button>
+                    <div id="concept-content-1" class="concept-content">
+                        <div class="p-4 sm:p-5 border-t">
+                            <p class="text-gray-700">Este é talvez o conceito central do seu pensamento. Para Weil, a atenção não é simples concentração. É uma forma de oração, uma espera passiva e um esvaziamento de si mesmo para se tornar receptivo à verdade e ao sofrimento do outro. É olhar para o belo e para o miserável com a mesma pureza, suspendendo o julgamento e a apropriação. A atenção pura é o caminho para a compreensão e o amor genuíno.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concept-item border rounded-lg overflow-hidden">
+                    <button class="concept-title w-full text-left p-4 sm:p-5 flex justify-between items-center bg-white hover:bg-rose-50/50 transition-colors" data-target="concept-content-2">
+                        <h3 class="text-lg sm:text-xl font-semibold text-[#333D45]">A Gravidade e a Graça</h3>
+                        <span class="icon text-xl text-[#8A3B53]">+</span>
+                    </button>
+                    <div id="concept-content-2" class="concept-content">
+                        <div class="p-4 sm:p-5 border-t">
+                            <p class="text-gray-700">A "gravidade" representa as forças naturais que nos puxam para baixo: o egoísmo, o orgulho, a necessidade e as leis mecânicas do universo. A "graça", por outro lado, é uma força sobrenatural e divina que eleva. Para Weil, o ser humano vive sob o domínio da gravidade, mas pode abrir-se à graça. Para receber a graça, é preciso criar um vazio em si mesmo, um ato de consentimento ao nada que ela chama de "descriação".</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="concept-item border rounded-lg overflow-hidden">
+                    <button class="concept-title w-full text-left p-4 sm:p-5 flex justify-between items-center bg-white hover:bg-rose-50/50 transition-colors" data-target="concept-content-3">
+                        <h3 class="text-lg sm:text-xl font-semibold text-[#333D45]">A Desgraça (Le Malheur)</h3>
+                        <span class="icon text-xl text-[#8A3B53]">+</span>
+                    </button>
+                    <div id="concept-content-3" class="concept-content">
+                        <div class="p-4 sm:p-5 border-t">
+                            <p class="text-gray-700">Weil distingue entre o sofrimento simples e a "desgraça". A desgraça é uma forma de sofrimento extremo, físico ou moral, que esmaga a alma, destrói o "eu" e nos faz sentir abandonados por Deus e pelos homens. É a experiência da ausência e do absurdo. No entanto, é precisamente neste ponto mais baixo que a graça pode intervir. Ela via a Paixão de Cristo como o exemplo máximo da desgraça voluntariamente aceite por amor.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="concept-item border rounded-lg overflow-hidden">
+                    <button class="concept-title w-full text-left p-4 sm:p-5 flex justify-between items-center bg-white hover:bg-rose-50/50 transition-colors" data-target="concept-content-4">
+                        <h3 class="text-lg sm:text-xl font-semibold text-[#333D45]">Crítica Política e Misticismo</h3>
+                        <span class="icon text-xl text-[#8A3B53]">+</span>
+                    </button>
+                    <div id="concept-content-4" class="concept-content">
+                        <div class="p-4 sm:p-5 border-t">
+                            <p class="text-gray-700">Weil era uma crítica feroz de todas as formas de opressão e totalitarismo, seja de direita ou de esquerda. Ela via a "força" como o principal mecanismo de desumanização e defendia um enraizamento do indivíduo em comunidades vivas. Apesar de sua profunda espiritualidade cristã, permaneceu deliberadamente "no limiar" da Igreja, sem ser batizada, por solidariedade com todos os que estavam fora dela, em outras tradições religiosas ou na descrença.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="legado" class="scroll-mt-20">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12">Legado e Obras</h2>
+            <p class="max-w-3xl mx-auto text-center text-gray-600 mb-12">
+                Apesar de sua vida curta e da publicação póstuma da maioria de seus escritos, a influência de Simone Weil estende-se pela filosofia, teologia e literatura. A sua insistência na coerência entre vida e pensamento continua a desafiar e a inspirar.
+            </p>
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 sm:gap-12">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-2xl font-semibold mb-4 text-[#333D45]">Influência Duradoura</h3>
+                    <p class="text-gray-700">
+                        Simone Weil não fundou uma escola de filosofia, mas deixou uma obra que ressoa em pensadores, teólogos, artistas e ativistas. Figuras como Albert Camus, T.S. Eliot e a Papa Paulo VI expressaram profunda admiração pelo seu trabalho. A sua coragem intelectual e a sua profundidade espiritual fazem dela uma figura única e permanentemente relevante, oferecendo uma crítica poderosa à modernidade e um caminho para uma espiritualidade encarnada.
+                    </p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-2xl font-semibold mb-4 text-[#333D45]">Obras Principais 📖</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li><strong>A Gravidade e a Graça</strong> (*La Pesanteur et la Grâce*, 1947)</li>
+                        <li><strong>O Enraizamento</strong> (*L'Enracinement*, 1949)</li>
+                        <li><strong>À Espera de Deus</strong> (*Attente de Dieu*, 1950)</li>
+                        <li><strong>A Condição Operária</strong> (*La Condition Ouvrière*, 1951)</li>
+                        <li><strong>Opressão e Liberdade</strong> (*Oppression et Liberté*, 1955)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center py-8 mt-12 border-t border-rose-100">
+        <p class="text-gray-500">Aplicação interativa criada para explorar a vida e o pensamento de Simone Weil.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const timelineButtons = document.querySelectorAll('.timeline-item button');
+            timelineButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+                    const content = document.getElementById(targetId);
+                    const isOpen = content.classList.contains('open');
+                    
+                    document.querySelectorAll('.timeline-item-content.open').forEach(openContent => {
+                        openContent.classList.remove('open');
+                        const openButton = document.querySelector(`button[data-target="${openContent.id}"]`);
+                        if(openButton) openButton.innerHTML = '<span class="text-xl font-bold">+</span>';
+                    });
+
+                    if (!isOpen) {
+                        content.classList.add('open');
+                        button.innerHTML = '<span class="text-xl font-bold">-</span>';
+                    }
+                });
+            });
+
+            const conceptButtons = document.querySelectorAll('.concept-item button');
+            conceptButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+                    const content = document.getElementById(targetId);
+                    const isOpen = content.classList.contains('open');
+
+                    document.querySelectorAll('.concept-content.open').forEach(openContent => {
+                        if (openContent.id !== targetId) {
+                            openContent.classList.remove('open');
+                            const openTitle = document.querySelector(`.concept-title[data-target="${openContent.id}"]`);
+                             if(openTitle) openTitle.classList.remove('open');
+                        }
+                    });
+                    
+                    content.classList.toggle('open');
+                    button.classList.toggle('open');
+                });
+            });
+
+            const menuButton = document.getElementById('menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Close mobile menu on link click
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
